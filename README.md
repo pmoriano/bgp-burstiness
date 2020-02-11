@@ -16,3 +16,14 @@ BibTeX entry:
     year = {2019},
 }
 ```
+
+
+## Dependencies
+These scripts were tested with following packages versions
+
+	python		2.7.10
+	pandas		0.23.0
+	numpy		1.13.1
+	scipy		1.1.0
+	networkx	2.2
+
