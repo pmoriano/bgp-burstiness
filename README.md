@@ -1,6 +1,6 @@
 # bgp-burstiness
 
-Contact: Pablo Moriano <pmoriano@indiana.edu>
+Contact: Pablo Moriano (pmoriano@indiana.edu)
 
 This repository contains code for: 
 - P. Moriano, R. Hill, and L. J. Camp, Using Bursty Announcements for Detecting BGP
