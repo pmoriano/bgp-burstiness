@@ -42,18 +42,24 @@ import sqlite3
 import scipy.stats as stats
 
 def calculate_unix_time(date_and_time):
-    """Calculate unix time elapsed from a datetime object
-       Input: date_and_time: datetime object (datetime)
-       Output: Second elapsed using unix reference (int)
-    """
+
+    '''
+    Calculate unix time elapsed from a datetime object
+    @param: date_and_time (datetime): datetime object
+    @return: Seconds elapsed using unix reference (int)
+    '''
+
     return int((date_and_time - datetime.utcfromtimestamp(0)).total_seconds())
 
 
 def retrieve_previous_RIB(cid, date):
-    """Fetch the previous dump time of a rib
-       Input: cid: collector name (str), date: date to start the analysis (str) format %Y-%m-%dT%H:%M:%S
-       Output: Previous timestamp of the RIB (datetime)
-    """
+
+    '''
+    Fetch the previous dump time of a RIB
+    @param: cid (str): collector name
+    @param: date (str): date to start the analysis in format "YYY-MM-DD HH:MM:SS"
+    @return: Previous timestamp of the RIB (datetime)
+    '''
 
     if type(date) == int:
         date = datetime.utcfromtimestamp(date)
@@ -87,10 +93,13 @@ def retrieve_previous_RIB(cid, date):
 
 
 def retrieve_next_RIB(cid, date):
-    """Fetch the next dump time of a RIB
-       Input: cid: collector name (str), date: date to start the analysis (str) format %Y-%m-%dT%H:%M:%S
-       Output: Next timestamp of the RIB (datetime)
-    """
+
+    '''
+    Fetch the next dump time of a RIB
+    @param: cid (str): collector name
+    @param: date (str): date to start the analysis in format "YYY-MM-DD HH:MM:SS"
+    @return: Next timestamp of the RIB (datetime)
+    '''
 
     if type(date) == int:
         date = datetime.utcfromtimestamp(date)
@@ -123,6 +132,16 @@ def retrieve_next_RIB(cid, date):
 
 
 def compute_update_evolution(collector_name, collector_dic, start_time, end_time, update_type):
+
+    '''
+    Collect update times by collector, date, and origin asn in a shared dictionary. Collection is done in parallel for each of the incidents.
+    @param: collector_name (str): name of the collector
+    @param: collector_dic (dict): shared directory to store the data
+    @param: start_time (str): start of the data collection in format "YYY-MM-DD HH:MM:SS"
+    @param: end_time (str): end of the data collection in format "YYY-MM-DD HH:MM:SS"
+    @param: update_type (str): either 'a' for announcements or 'w' for withdrawals
+    @return: None
+    '''
 
     # Create a new bgpstream instance and a reusable bgprecord instance
     stream = BGPStream()
@@ -233,6 +252,12 @@ def compute_update_evolution(collector_name, collector_dic, start_time, end_time
 
 def main():
 
+    '''
+    Start the inter event time collection for either announcements (a) or withdrawals. Collection is done in parallel for each of the events
+    @param: None
+    @return: None
+    '''
+
     # How to run it
     # python understanding-interevent-time.py "incident" "update_type"
 
@@ -245,17 +270,13 @@ def main():
     print "Update type: ", update_type
 
     # Change directory
-    os.chdir("/home/pmoriano/Research/Hijacks/Graph-Analysis/BGPParser/New-Analysis/" + incident + "/data/")
+    os.chdir("/your_directory_path/" + incident + "/data/")
 
     # Define collectors to get the data
     if incident == "Indonesia":
         # 16 collectors
         collector_names = ["route-views.eqix", "route-views.isc", "route-views.jinx", "route-views.kixp", "route-views.linx", "route-views.nwax", "route-views.perth",
         "route-views.saopaulo", "route-views.soxrs", "route-views.sydney", "route-views.telxatl", "route-views.wide", "route-views2", "route-views3", "route-views4", "route-views6"]
-
-        # Withour isc
-        # collector_names = ["route-views.eqix", "route-views.jinx", "route-views.kixp", "route-views.linx", "route-views.nwax", "route-views.perth",
-        # "route-views.saopaulo", "route-views.soxrs", "route-views.sydney", "route-views.telxatl", "route-views.wide", "route-views2", "route-views3", "route-views4", "route-views6"]
 
         # collector_names = ["route-views.isc"]
 
@@ -266,6 +287,7 @@ def main():
         # 18 collecotrs
         collector_names = ["route-views.eqix", "route-views.isc", "route-views.jinx", "route-views.kixp", "route-views.linx", "route-views.nwax", "route-views.perth",
         "route-views.saopaulo", "route-views.sfmix", "route-views.sg", "route-views.soxrs", "route-views.sydney", "route-views.telxatl", "route-views.wide", "route-views2", "route-views3", "route-views4", "route-views6"]
+
         # collector_names = ["route-views.kixp", "route-views.perth"]
         date_time_start = "2015-06-09 08:00:00"
         date_time_end = "2015-06-15 12:00:00"
@@ -274,6 +296,7 @@ def main():
         # 18 collecotrs
         collector_names = ["route-views.eqix", "route-views.isc", "route-views.jinx", "route-views.kixp", "route-views.linx", "route-views.nwax", "route-views.perth",
         "route-views.saopaulo", "route-views.sfmix", "route-views.sg", "route-views.soxrs", "route-views.sydney", "route-views.telxatl", "route-views.wide", "route-views2", "route-views3", "route-views4", "route-views6"]
+
         # collector_names = ["route-views.kixp", "route-views.perth"]
         date_time_start = "2015-11-03 04:00:00"
         date_time_end = "2015-11-09 16:00:00"
@@ -282,6 +305,7 @@ def main():
         # 13 collectors
         collector_names = ["route-views.eqix", "route-views.isc", "route-views.jinx", "route-views.kixp", "route-views.linx", "route-views.perth", "route-views.saopaulo",
         "route-views.sydney", "route-views.telxatl", "route-views.wide", "route-views2", "route-views4", "route-views6"]
+
         # collector_names = ["route-views.kixp", "route-views.perth"]
         date_time_start = "2013-07-28 06:00:00"
         date_time_end = "2013-08-03 18:00:00"
@@ -290,6 +314,7 @@ def main():
         # 13 collectors
         collector_names = ["route-views.eqix", "route-views.isc", "route-views.jinx", "route-views.kixp", "route-views.linx", "route-views.perth",
         "route-views.saopaulo", "route-views.sydney", "route-views.telxatl", "route-views.wide", "route-views2", "route-views4", "route-views6"]
+
         # collector_names = ["route-views.kixp", "route-views.perth"]
         date_time_start = "2013-02-24 08:00:00"
         date_time_end = "2013-03-01 06:00:00"
@@ -298,6 +323,7 @@ def main():
         # 18 collectors excluding Chicago
         collector_names = ["route-views.eqix", "route-views.isc", "route-views.jinx", "route-views.kixp", "route-views.linx", "route-views.nwax", "route-views.perth",
         "route-views.saopaulo", "route-views.sfmix", "route-views.sg", "route-views.soxrs", "route-views.sydney", "route-views.telxatl", "route-views.wide", "route-views2", "route-views3", "route-views4", "route-views6"]
+
         # collector_names = ["route-views.kixp", "route-views.perth"]
         # collector_names = ["route-views.linx"]
 

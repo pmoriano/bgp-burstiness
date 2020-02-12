@@ -57,7 +57,7 @@ def retrieve_previous_RIB(cid, date):
     Fetch the previous dump time of a RIB
     @param: cid (str): collector name
     @param: date (str): date to start the analysis in format "YYY-MM-DD HH:MM:SS"
-    @return: Next timestamp of the RIB (datetime)
+    @return: Previous timestamp of the RIB (datetime)
     '''
 
     if type(date) == int:
@@ -348,7 +348,7 @@ def compute_update_evolution_unique_prefixes(collector_name, collector_dic, star
 def main():
 
     '''
-    Start the data collection procedure based on the name of the event to analyze. Collection is done in parallel for each of the events
+    Start the announcement collection procedure based on the name of the event to analyze. Collection is done in parallel for each of the events
     @param: None
     @return: None
     '''
@@ -362,7 +362,7 @@ def main():
     print "Incident: ", incident
 
     # Change directory
-    os.chdir("/your_direcotry/" + incident + "/data/")
+    os.chdir("/your_directory_path/" + incident + "/data/")
 
 
     # Define collectors to get the data
