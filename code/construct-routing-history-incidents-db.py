@@ -72,7 +72,7 @@ def create_connection(db_file):
 def compute_update_evolution(arguments):
 
     '''
-    Fill out a data base with all the details about the announcement revieved by the collectors during the incident. Collection is done in parallel for each of the incidents.
+    Fill out a data base with all the details about the announcement received by the collectors during the incident. Collection is done in parallel for each of the incidents.
     @param: arguments (array): incident name (str), collector_name (str), array_of_date_time (str)
     @return: None
     '''
