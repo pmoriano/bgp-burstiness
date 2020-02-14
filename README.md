@@ -19,7 +19,7 @@ BibTeX entry:
 
 ## Description
 
-Run the following scripts and notebooks in the specified order to reproduce the each of the experiments in the paper. The script `helper_functions.py` is just a file that contains some common functions used across the experiments.
+Run the following scripts and notebooks in the specified order to reproduce the each of the experiments in the paper. The script `helper_functions.py` is a file that contains some common functions used across the experiments.
 
 ### Scripts
 
@@ -44,7 +44,7 @@ You will need to run the following notebooks in `notebooks` in the following ord
 
 ## Dependencies
 
-These scripts were tested with following packages versions
+These scripts were tested with following packages versions:
 
 	python		2.7.10
 	pandas		0.23.0
