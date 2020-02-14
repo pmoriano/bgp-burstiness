@@ -31,9 +31,9 @@ You will need to run the following scripts in `code` in the following order:
 4. `understanding-interevent-time-null.py` --> incident + '_' + 'null_interarrival_times_database.db'
 5. `construct-routing-history-incidents-db.py` --> incident + '_' + 'routing_history_database.db'
 
-## Notebooks
+### Notebooks
 
-If you want to reproduce directly the figures in the paper download the processed datasets in:  
+If you want to reproduce directly the figures in the paper download the processed datasets available in:  
 
 You will need to run the following notebooks in `notebooks` in the following order:
 
@@ -43,11 +43,14 @@ You will need to run the following notebooks in `notebooks` in the following ord
 
 
 ## Dependencies
+
 These scripts were tested with following packages versions
 
 	python		2.7.10
 	pandas		0.23.0
 	numpy		1.13.1
+	matplotlib	1.5.3
 	scipy		1.1.0
-	networkx	2.2
-
+	scikit-learn	0.19.2	
+	pybgpstream     1.1.0   
+	
