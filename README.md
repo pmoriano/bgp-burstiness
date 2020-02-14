@@ -19,11 +19,15 @@ BibTeX entry:
 
 ## Description
 
-Follow the below procedure to reproduce the Indonesia experiment.
+Follow the below procedure to reproduce the each of the experiments in the paper.
 
 ### Scripts
 
-
+Yo will need to run the following scripts in `code` in the following order:
+1. compute-collector-evolution.py --> "dic_feeders_evolution_" + incident + ".p"
+2. understanding-updates.py
+3. understanding-interevent-time.py
+4. 
 
 
 
