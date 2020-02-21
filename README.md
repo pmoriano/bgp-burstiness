@@ -33,7 +33,7 @@ You will need to run the following scripts in `code` in the following order:
 
 ### Notebooks
 
-If you want to reproduce directly the figures in the paper download the processed datasets available in [https://zenodo.org/deposit/3667719](https://zenodo.org/deposit/3667719).  
+If you want to reproduce directly the figures in the paper download the processed datasets available in [https://zenodo.org/record/3667719](https://zenodo.org/record/3667719).  
 
 You will need to run the following notebooks in `notebooks` in the following order:
 
