@@ -1,10 +1,10 @@
 # bgp-burstiness
 
-Contact: Pablo Moriano (pmoriano@indiana.edu)
+Contact: Pablo Moriano (moriano@ieee.org)
 
-This repository contains code for: 
+[//]: <> (This repository contains code for: 
 - P. Moriano, R. Hill, and L. J. Camp, Using Bursty Announcements for Detecting BGP
-Routing Anomalies, arXiv:1905.05835, 2019.
+Routing Anomalies, arXiv:1905.05835, 2019.)
 
 BibTeX entry:
 
