@@ -2,21 +2,6 @@
 
 Contact: Pablo Moriano (moriano@ieee.org)
 
-[//]: <> (This repository contains code for: 
-- P. Moriano, R. Hill, and L. J. Camp, Using Bursty Announcements for Detecting BGP
-Routing Anomalies, arXiv:1905.05835, 2019.)
-
-BibTeX entry:
-
-```
-@article{Moriano:2019:BGP:Burstiness,
-    author = {P. Moriano, R. Hill, and L. J. Camp},
-    title = {Using Bursty Announcements for Detecting BGP Routing Anomalies},
-    journal = {arXiv preprint arXiv:1905.05835},
-    year = {2019},
-}
-```
-
 ## Description
 
 Run the following scripts and notebooks in the specified order to reproduce the each of the experiments in the paper. The script `helper_functions.py` is a file that contains some common functions used across the experiments.
