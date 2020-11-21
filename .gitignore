@@ -15,6 +15,9 @@ supp.pdf
 *.log
 
 # Data files
+/data/updates_dic_unique_Indonesia.json
+/data/interevent_time_dic_Indonesia_a.json
+/data/Indonesia_null_interarrival_times_database.db
 *.csv
 *.tsv
 *.txt
