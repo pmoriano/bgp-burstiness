@@ -5,6 +5,7 @@ import time
 import numpy as np
 import pandas as pd
 import sqlite3
+from collections import defaultdict
 
 
 def partition_df(start_date, end_date, window_length, offset):
@@ -68,6 +69,7 @@ def map_ground_truth_to_regular_espace(start_date, end_date, list_of_events_regu
 
     # Create the partition in the new time domain (array of arrays of strings)
     date_range_list_new_space = np.array(partition_df(start_date, end_date, m, m))
+    # print date_range_list_new_space
 
     # Initialize the indicator vector in the new space
     indicator_new_space = np.array([0 for index in range(len(date_range_list_new_space))])
@@ -165,6 +167,7 @@ def map_signal_to_regular_space_one_shot(signal_x, signal_y, array_mean, array_s
 
     # Compute the time interval partition in the new space
     date_range_list_new_space = np.array(partition_df(date_time_start, date_time_end, m, m))
+    # print date_range_list_new_space
     # print "date_range_list_new_space", date_range_list_new_space
     #print date_range_list_new_space[0], date_range_list_new_space[-1]
     # print date_range_list_new_space[:,0], len(date_range_list_new_space[:,0]), type(date_range_list_new_space[:,0])
@@ -192,6 +195,16 @@ def map_signal_to_regular_space_one_shot(signal_x, signal_y, array_mean, array_s
 
     # Look at the start date of the interval to correlate
     pivot_dates = np.array([datetime.strptime(date, '%Y-%m-%d %H:%M:%S') for date in date_range_list_new_space[:,0]])
+
+    # Look at the middle of the interval to correlate
+    # pivot_dates = []
+    # for date_tuple in date_range_list_new_space:
+    #     left_datetime = datetime.strptime(date_tuple[0], '%Y-%m-%d %H:%M:%S')
+    #     right_datetime = datetime.strptime(date_tuple[1], '%Y-%m-%d %H:%M:%S')
+    #     center_datetime = left_datetime + timedelta(minutes=divmod((right_datetime-left_datetime).total_seconds()/2, 60)[0])
+    #     pivot_dates.append(center_datetime)
+    # pivot_dates = np.array(pivot_dates)
+    #  print "pivot_dates: ", pivot_dates
 
     for timestamp in compromised_timestamps:
 
@@ -291,9 +304,101 @@ def create_connection(db_file):
         conn = sqlite3.connect(db_file)
         return conn
     except:
-        print "Error"
+        print("Error")
 
     return None
+
+
+
+
+def compute_ground_truth_lines(timestamps_array, time_window):
+    """
+    Compute empirically the ground truth
+    @param timestamps_array: Array of timestamps of hijacks (str)
+    @param time_window: Window time (int)
+    """
+
+    ground_truth_lines = []
+
+    if len(timestamps_array) > 0:
+        initial_timestamp = timestamps_array[0]
+        ground_truth_lines.append(initial_timestamp)
+
+    horizon = initial_timestamp + timedelta(hours=time_window)
+    # print initial_timestamp, horizon
+
+    for timestamp in timestamps_array[1:]:
+        if timestamp >= horizon:
+            ground_truth_lines.append(timestamp)
+            horizon = timestamp + timedelta(hours=time_window)
+
+    return ground_truth_lines
+
+
+
+def get_ground_truth(updates, prefixes_set, time_window):
+    """
+    Function to process a stream of updates and return empirical ground truth by collector at a certain granularity
+    @param updates: A dictionary of all possible updates duwing the obsevation period for all collectors (dict)
+    @param prefixes_set: set of valid prefixes (set)
+    @param time_window: A granularity to report ground truth (int)
+    """
+    ##############################################
+    # Get a list of hijacked prefixes
+    copy_of_interest_dic = defaultdict(lambda: defaultdict(list))
+
+    #for collector, update_metadata in updates.iteritems(): # For each collector
+    for collector, update_metadata in updates.items(): # For each collector
+        # print collector
+        #for date_time, prefixes in updates[collector].iteritems(): # For each date_time
+        for date_time, prefixes in updates[collector].items(): # For each date_time
+            # print date_time
+            for prefix in updates[collector][date_time]: # For each prefix in a particular date_time
+                if prefix not in prefixes_set: # Check that the prefix "is not" in the set of valid prefixes. When not means hijacked prefixes.
+                    copy_of_interest_dic[collector][date_time].append(prefix)
+
+
+    # Convert to a regular list
+    #copy_of_interest_dic = {collector:dict(update_metadata) for collector, update_metadata in copy_of_interest_dic.iteritems()}
+    copy_of_interest_dic = {collector:dict(update_metadata) for collector, update_metadata in copy_of_interest_dic.items()}
+    ############################################
+    # Get only datetimes of the AS of interest
+    dic = defaultdict(list)
+
+    for collector in copy_of_interest_dic:
+        # print key_collector
+        for date in sorted(copy_of_interest_dic[collector]):
+            dic[collector].append([datetime.strptime(date, '%Y-%m-%d %H:%M:%S'), len(copy_of_interest_dic[collector][date])])
+
+    ###########################################
+    # Create a dictionary of ground truth lines
+    ground_truth_dic = {}
+
+    for collector in copy_of_interest_dic:
+
+        if dic[collector] != []:
+
+            x = np.array(dic[collector])[:,0]
+            ground_truth_dic[collector] = compute_ground_truth_lines(x, time_window)
+
+
+    return ground_truth_dic
+
+
+
+def create_dataset(dataset, look_back=1):
+    """
+    Function to convert an array of values into a dataset matrix
+    @param dataset: Time series valies (array)
+    @param look_back: how many lags (int)
+    """
+    dataX, dataY = [], []
+    for i in range(len(dataset)-look_back-1):
+        a = dataset[i:(i+look_back), 0]
+        dataX.append(a)
+        dataY.append(dataset[i + look_back, 0])
+    return np.array(dataX), np.array(dataY)
+
 
 
 
