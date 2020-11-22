@@ -38,4 +38,4 @@ These scripts were tested with following packages versions:
 	scipy		1.1.0
 	scikit-learn	0.19.2	
 	pybgpstream     1.1.0   
-	
+        tensorflow	2.0.0
