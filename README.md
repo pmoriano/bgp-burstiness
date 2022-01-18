@@ -38,4 +38,16 @@ These scripts were tested with following packages versions:
 	scipy		1.1.0
 	scikit-learn	0.19.2	
 	pybgpstream     1.1.0   
-        tensorflow	2.0.0
+  	tensorflow	2.0.0
+	
+If you use this code, please cite the following paper:
+
+	@article{moriano2021using,
+	  title={Using bursty announcements for detecting BGP routing anomalies},
+	  author={Moriano, Pablo and Hill, Raquel and Camp, L Jean},
+	  journal={Computer Networks},
+	  volume={188},
+	  pages={107835},
+	  year={2021},
+	  publisher={Elsevier}
+	}
